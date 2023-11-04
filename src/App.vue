@@ -7,6 +7,7 @@ import Reset from '@/assets/rotate-ccw.svg';
 import VolumeMax from '@/assets/volume-2.svg';
 import VolumeMin from '@/assets/volume-x.svg';
 import { useTimer } from '@/composables/useTimer';
+import NumberInput from '@/components/NumberInput.vue';
 
 const workMins = useLocalStorage('pomodoro-workMins', 25);
 const breakMins = useLocalStorage('pomodoro-breakMins', 5);
@@ -44,21 +45,9 @@ const { formattedTime, phaseText, playing, play, pause, reset } = useTimer(
       <label class="leading-none">Work</label>
       <span />
       <label class="leading-none">Break</label>
-      <fieldset class="form-control">
-        <input
-          v-model="workMins"
-          type="text"
-          class="input input-bordered input-sm w-full px-0 text-center"
-        />
-      </fieldset>
+      <NumberInput v-model="workMins" class="w-full text-center" />
       <small class="text-sm">mins</small>
-      <fieldset class="form-control">
-        <input
-          v-model="breakMins"
-          type="text"
-          class="input input-bordered input-sm w-full px-0 text-center"
-        />
-      </fieldset>
+      <NumberInput v-model="breakMins" class="w-full text-center" />
 
       <fieldset class="form-control">
         <select class="select select-bordered select-sm w-full" value="" />
