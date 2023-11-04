@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useLocalStorage } from '@vueuse/core';
+import { useSound } from '@vueuse/sound';
 import Pause from '@/assets/pause.svg';
 import Play from '@/assets/play.svg';
 import Reset from '@/assets/rotate-ccw.svg';
@@ -9,9 +10,14 @@ import { useTimer } from '@/composables/useTimer';
 
 const workMins = useLocalStorage('pomodoro-workMins', 25);
 const breakMins = useLocalStorage('pomodoro-breakMins', 5);
+const volume = useLocalStorage('pomodoro-volume', 0.5);
+const workSound = useSound('/maou_se_onepoint23.mp3', { volume });
+const breakSound = useSound('/maou_se_chime13.mp3', { volume });
 const { formattedTime, phaseText, playing, play, pause, reset } = useTimer(
   workMins,
   breakMins,
+  workSound,
+  breakSound,
 );
 </script>
 
@@ -65,12 +71,12 @@ const { formattedTime, phaseText, playing, play, pause, reset } = useTimer(
     <div class="flex w-full gap-x-2">
       <VolumeMin />
       <input
+        v-model="volume"
         type="range"
         class="range range-secondary range-sm grow"
         min="0"
         max="1"
         step="0.1"
-        :value="0.5"
       />
       <VolumeMax />
     </div>

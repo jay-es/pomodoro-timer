@@ -1,7 +1,13 @@
 import type { Ref } from 'vue';
 import { ref, readonly, computed, onMounted, onUnmounted } from 'vue';
+import type { useSound } from 'node_modules/@vueuse/sound';
 
-export function useTimer(workMins: Ref<number>, breakMins: Ref<number>) {
+export function useTimer(
+  workMins: Ref<number>,
+  breakMins: Ref<number>,
+  workSound: ReturnType<typeof useSound>,
+  breakSound: ReturnType<typeof useSound>,
+) {
   const phase = ref<'work' | 'break'>('work');
   const playing = ref(false);
   const restSec = ref(0);
@@ -16,6 +22,7 @@ export function useTimer(workMins: Ref<number>, breakMins: Ref<number>) {
     const worked = phase.value === 'work';
     phase.value = worked ? 'break' : 'work';
     restSec.value = (worked ? breakMins.value : workMins.value) * 60;
+    (worked ? breakSound : workSound).play();
   }
 
   let timerId: number;
