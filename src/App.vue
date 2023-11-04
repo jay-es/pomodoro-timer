@@ -1,8 +1,18 @@
 <script setup lang="ts">
+import { useLocalStorage } from '@vueuse/core';
+import Pause from '@/assets/pause.svg';
 import Play from '@/assets/play.svg';
 import Reset from '@/assets/rotate-ccw.svg';
 import VolumeMax from '@/assets/volume-2.svg';
 import VolumeMin from '@/assets/volume-x.svg';
+import { useTimer } from '@/composables/useTimer';
+
+const workMins = useLocalStorage('pomodoro-workMins', 25);
+const breakMins = useLocalStorage('pomodoro-breakMins', 5);
+const { formattedTime, phaseText, playing, play, pause, reset } = useTimer(
+  workMins,
+  breakMins,
+);
 </script>
 
 <template>
@@ -11,15 +21,17 @@ import VolumeMin from '@/assets/volume-x.svg';
   </header>
 
   <main class="mx-auto flex w-64 flex-col items-center gap-y-6 text-center">
-    <div class="grid h-64 w-64 place-items-center rounded-full border">
-      <time class="text-7xl">00:00</time>
+    <div class="relative grid h-64 w-64 place-items-center rounded-full border">
+      <small class="absolute top-16">{{ phaseText }}</small>
+      <time class="text-7xl">{{ formattedTime }}</time>
     </div>
     <div class="flex gap-x-4">
       <button class="btn btn-circle btn-secondary btn-outline">
-        <Reset />
+        <Reset @click="reset()" />
       </button>
       <button class="btn btn-circle btn-primary">
-        <Play />
+        <Pause v-if="playing" @click="pause()" />
+        <Play v-else @click="play()" />
       </button>
     </div>
     <div class="grid grid-cols-[1fr_32px_1fr] items-center gap-x-4 gap-y-3">
@@ -28,17 +40,17 @@ import VolumeMin from '@/assets/volume-x.svg';
       <label class="leading-none">Break</label>
       <fieldset class="form-control">
         <input
+          v-model="workMins"
           type="text"
           class="input input-bordered input-sm w-full px-0 text-center"
-          :value="25"
         />
       </fieldset>
       <small class="text-sm">mins</small>
       <fieldset class="form-control">
         <input
+          v-model="breakMins"
           type="text"
           class="input input-bordered input-sm w-full px-0 text-center"
-          :value="5"
         />
       </fieldset>
 
