@@ -1,6 +1,7 @@
 import type { Ref } from 'vue';
-import { ref, readonly, computed, onMounted, onUnmounted } from 'vue';
+import { ref, readonly, computed } from 'vue';
 import type { useSound } from '@vueuse/sound';
+import { useInterval } from './useInterval';
 
 export function useTimer(
   workMins: Ref<number>,
@@ -10,7 +11,7 @@ export function useTimer(
 ) {
   const phase = ref<'work' | 'break'>('work');
   const playing = ref(false);
-  const restSec = ref(0);
+  const restSec = ref(workMins.value * 60);
 
   function reset() {
     playing.value = false;
@@ -25,22 +26,15 @@ export function useTimer(
     (worked ? breakSound : workSound).play();
   }
 
-  let timerId: number;
-  onMounted(() => {
-    reset();
-    timerId = window.setInterval(() => {
-      if (!playing.value) return;
+  useInterval(() => {
+    if (!playing.value) return;
 
-      restSec.value -= 1;
+    restSec.value -= 1;
 
-      if (restSec.value === 0) {
-        switchPhase();
-      }
-    }, 1000);
-  });
-  onUnmounted(() => {
-    window.clearInterval(timerId);
-  });
+    if (restSec.value === 0) {
+      switchPhase();
+    }
+  }, 1000);
 
   return {
     reset,
