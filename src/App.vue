@@ -38,52 +38,50 @@ const { formattedTime, phaseText, playing, reset, toggleTimer } = useTimer(
       </button>
       <button class="btn btn-circle btn-primary" @click="toggleTimer()">
         <Pause v-if="playing" />
-        <Play v-else />
+        <Play v-else class="ml-[3px]" />
       </button>
     </div>
-    <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-x-4 gap-y-3">
-      <label class="leading-none">Work</label>
-      <span />
-      <label class="leading-none">Break</label>
-      <NumberInput v-model="workMins" class="w-full text-center" />
-      <small class="text-sm">mins</small>
-      <NumberInput v-model="breakMins" class="w-full text-center" />
+    <div class="grid w-full grid-cols-[auto_auto_1fr_auto] items-center gap-2">
+      <small />
+      <small>mins</small>
+      <small>sound</small>
+      <small>test</small>
 
-      <!--
-      <fieldset class="form-control">
-        <select class="select select-bordered select-sm w-full" value="" />
-      </fieldset>
-      <small class="text-sm">sound</small>
-      <fieldset class="form-control">
-        <select class="select select-bordered select-sm w-full" value="" />
-      </fieldset>
-      -->
-
+      <label>Work</label>
+      <NumberInput v-model="workMins" class="w-14 text-center" />
+      <select class="select select-bordered select-sm" />
       <button
-        class="btn btn-secondary btn-outline btn-xs"
+        class="btn btn-circle btn-ghost btn-xs text-secondary"
         @click="workSound.play()"
       >
-        <Play class="w-3" />
+        <Play class="ml-0.5 w-4" />
       </button>
-      <small class="text-sm">test</small>
+
+      <label>Break</label>
+      <NumberInput v-model="breakMins" class="w-14 text-center" />
+      <select class="select select-bordered select-sm" />
       <button
-        class="btn btn-secondary btn-outline btn-xs"
+        class="btn btn-circle btn-ghost btn-xs text-secondary"
         @click="breakSound.play()"
       >
-        <Play class="w-3" />
+        <Play class="ml-0.5 w-4" />
       </button>
     </div>
     <div class="flex w-full gap-x-2">
-      <VolumeMin />
+      <button @click="volume = Math.max(0, volume - 0.1)">
+        <VolumeMin class="w-5 text-secondary" />
+      </button>
       <input
-        v-model="volume"
+        v-model.number="volume"
         type="range"
         class="range range-secondary range-sm grow"
         min="0"
         max="1"
         step="0.1"
       />
-      <VolumeMax />
+      <button @click="volume = Math.min(1, volume + 0.1)">
+        <VolumeMax class="w-5 text-secondary" />
+      </button>
     </div>
   </main>
 
