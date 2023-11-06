@@ -14,7 +14,7 @@ const breakMins = useLocalStorage('pomodoro-breakMins', 5);
 const volume = useLocalStorage('pomodoro-volume', 0.5);
 const workSound = useSound('/maou_se_onepoint23.mp3', { volume });
 const breakSound = useSound('/maou_se_chime13.mp3', { volume });
-const { formattedTime, phaseText, playing, play, pause, reset } = useTimer(
+const { formattedTime, phaseText, playing, reset, toggleTimer } = useTimer(
   workMins,
   breakMins,
   workSound,
@@ -33,15 +33,15 @@ const { formattedTime, phaseText, playing, play, pause, reset } = useTimer(
       <time class="text-7xl tabular-nums">{{ formattedTime }}</time>
     </div>
     <div class="flex gap-x-4">
-      <button class="btn btn-circle btn-secondary btn-outline">
-        <Reset @click="reset()" />
+      <button class="btn btn-circle btn-secondary btn-outline" @click="reset()">
+        <Reset />
       </button>
-      <button class="btn btn-circle btn-primary">
-        <Pause v-if="playing" @click="pause()" />
-        <Play v-else @click="play()" />
+      <button class="btn btn-circle btn-primary" @click="toggleTimer()">
+        <Pause v-if="playing" />
+        <Play v-else />
       </button>
     </div>
-    <div class="grid grid-cols-[1fr_32px_1fr] items-center gap-x-4 gap-y-3">
+    <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-x-4 gap-y-3">
       <label class="leading-none">Work</label>
       <span />
       <label class="leading-none">Break</label>
@@ -49,6 +49,7 @@ const { formattedTime, phaseText, playing, play, pause, reset } = useTimer(
       <small class="text-sm">mins</small>
       <NumberInput v-model="breakMins" class="w-full text-center" />
 
+      <!--
       <fieldset class="form-control">
         <select class="select select-bordered select-sm w-full" value="" />
       </fieldset>
@@ -56,6 +57,21 @@ const { formattedTime, phaseText, playing, play, pause, reset } = useTimer(
       <fieldset class="form-control">
         <select class="select select-bordered select-sm w-full" value="" />
       </fieldset>
+      -->
+
+      <button
+        class="btn btn-secondary btn-outline btn-xs"
+        @click="workSound.play()"
+      >
+        <Play class="w-3" />
+      </button>
+      <small class="text-sm">test</small>
+      <button
+        class="btn btn-secondary btn-outline btn-xs"
+        @click="breakSound.play()"
+      >
+        <Play class="w-3" />
+      </button>
     </div>
     <div class="flex w-full gap-x-2">
       <VolumeMin />

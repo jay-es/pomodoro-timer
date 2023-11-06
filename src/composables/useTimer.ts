@@ -1,6 +1,6 @@
 import type { Ref } from 'vue';
 import { ref, readonly, computed, onMounted, onUnmounted } from 'vue';
-import type { useSound } from 'node_modules/@vueuse/sound';
+import type { useSound } from '@vueuse/sound';
 
 export function useTimer(
   workMins: Ref<number>,
@@ -43,9 +43,8 @@ export function useTimer(
   });
 
   return {
-    play: () => (playing.value = true),
-    pause: () => (playing.value = false),
     reset,
+    toggleTimer: () => (playing.value = !playing.value),
     playing: readonly(playing),
     formattedTime: computed(() => {
       const pad = (n: number) => n.toString().padStart(2, '0');
