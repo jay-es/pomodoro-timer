@@ -1,5 +1,6 @@
 import type { Ref } from 'vue';
 import { ref, readonly, computed } from 'vue';
+import { useEventListener } from '@vueuse/core';
 import type { useSound } from '@vueuse/sound';
 import { useInterval } from './useInterval';
 
@@ -26,6 +27,10 @@ export function useTimer(
     (worked ? breakSound : workSound).play();
   }
 
+  function toggleTimer() {
+    playing.value = !playing.value;
+  }
+
   useInterval(() => {
     if (!playing.value) return;
 
@@ -36,9 +41,13 @@ export function useTimer(
     }
   }, 1000);
 
+  useEventListener('keypress', ({ key, target }) => {
+    if (target === document.body && key === ' ') toggleTimer();
+  });
+
   return {
     reset,
-    toggleTimer: () => (playing.value = !playing.value),
+    toggleTimer,
     playing: readonly(playing),
     formattedTime: computed(() => {
       const pad = (n: number) => n.toString().padStart(2, '0');
