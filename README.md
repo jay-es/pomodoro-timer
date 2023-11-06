@@ -1,5 +1,10 @@
 # pomodoro-timer
 
+### assets
+
+- favicon: https://www.svgrepo.com/svg/475232/tomato
+- sounds: https://maou.audio/
+
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup

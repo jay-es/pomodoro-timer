@@ -23,14 +23,14 @@ const { formattedTime, phaseText, playing, play, pause, reset } = useTimer(
 </script>
 
 <template>
-  <header class="p-4 text-center text-3xl font-light">
+  <header class="p-6 text-center text-3xl font-light">
     Simple Pomodoro Timer
   </header>
 
   <main class="mx-auto flex w-64 flex-col items-center gap-y-6 text-center">
     <div class="relative grid h-64 w-64 place-items-center rounded-full border">
       <small class="absolute top-16">{{ phaseText }}</small>
-      <time class="text-7xl">{{ formattedTime }}</time>
+      <time class="text-7xl tabular-nums">{{ formattedTime }}</time>
     </div>
     <div class="flex gap-x-4">
       <button class="btn btn-circle btn-secondary btn-outline">
