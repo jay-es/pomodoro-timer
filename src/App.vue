@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useLocalStorage } from '@vueuse/core';
 import { useSound } from '@vueuse/sound';
+import { watch } from 'vue';
 import Pause from '@/assets/pause.svg';
 import Play from '@/assets/play.svg';
 import Reset from '@/assets/rotate-ccw.svg';
@@ -8,18 +9,25 @@ import VolumeMax from '@/assets/volume-2.svg';
 import VolumeMin from '@/assets/volume-x.svg';
 import { useTimer } from '@/composables/useTimer';
 import NumberInput from '@/components/NumberInput.vue';
+import SoundSelect, { sounds } from '@/components/SoundSelect.vue';
 
 const workMins = useLocalStorage('pomodoro-workMins', 25);
 const breakMins = useLocalStorage('pomodoro-breakMins', 5);
 const volume = useLocalStorage('pomodoro-volume', 0.5);
-const workSound = useSound('/maou_se_onepoint23.mp3', { volume });
-const breakSound = useSound('/maou_se_chime13.mp3', { volume });
+const workSoundPath = useLocalStorage('pomodoro-workSound', sounds['chime x3']);
+const breakSoundPath = useLocalStorage('pomodoro-breakSound', sounds['chime']);
+
+const workSound = useSound(workSoundPath, { volume });
+const breakSound = useSound(breakSoundPath, { volume });
 const { formattedTime, phaseText, playing, reset, toggleTimer } = useTimer(
   workMins,
   breakMins,
   workSound,
   breakSound,
 );
+
+watch(workSoundPath, () => workSound.play());
+watch(breakSoundPath, () => breakSound.play());
 </script>
 
 <template>
@@ -49,7 +57,7 @@ const { formattedTime, phaseText, playing, reset, toggleTimer } = useTimer(
 
       <label>Work</label>
       <NumberInput v-model="workMins" class="w-14 text-center" />
-      <select class="select select-bordered select-sm" />
+      <SoundSelect v-model="workSoundPath" class="w-full text-center" />
       <button
         class="btn btn-circle btn-ghost btn-xs text-secondary"
         @click="workSound.play()"
@@ -59,7 +67,7 @@ const { formattedTime, phaseText, playing, reset, toggleTimer } = useTimer(
 
       <label>Break</label>
       <NumberInput v-model="breakMins" class="w-14 text-center" />
-      <select class="select select-bordered select-sm" />
+      <SoundSelect v-model="breakSoundPath" class="w-full text-center" />
       <button
         class="btn btn-circle btn-ghost btn-xs text-secondary"
         @click="breakSound.play()"

@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "postinstall": "sed -i -e 's/() => \\[url\\],/() => \\[unref(url)\\],/g' ./node_modules/@vueuse/sound/dist/index.mjs",
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
