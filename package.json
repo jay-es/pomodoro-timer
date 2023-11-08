@@ -16,6 +16,7 @@
   "dependencies": {
     "@vueuse/core": "^10.5.0",
     "@vueuse/sound": "^2.0.1",
+    "lucide-vue-next": "^0.292.0",
     "vue": "^3.3.4"
   },
   "devDependencies": {

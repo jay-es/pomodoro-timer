@@ -2,11 +2,13 @@
 import { useLocalStorage } from '@vueuse/core';
 import { useSound } from '@vueuse/sound';
 import { watch } from 'vue';
-import Pause from '@/assets/pause.svg';
-import Play from '@/assets/play.svg';
-import Reset from '@/assets/rotate-ccw.svg';
-import VolumeMax from '@/assets/volume-2.svg';
-import VolumeMin from '@/assets/volume-x.svg';
+import {
+  Pause,
+  Play,
+  RotateCcw as Reset,
+  Volume2 as VolumeMax,
+  VolumeX as VolumeMin,
+} from 'lucide-vue-next';
 import { useTimer } from '@/composables/useTimer';
 import NumberInput from '@/components/NumberInput.vue';
 import SoundSelect, { sounds } from '@/components/SoundSelect.vue';
