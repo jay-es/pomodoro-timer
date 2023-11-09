@@ -37,19 +37,22 @@ watch(breakSoundPath, () => breakSound.play());
     Simple Pomodoro Timer
   </header>
 
-  <main class="mx-auto flex w-64 flex-col items-center gap-y-6 text-center">
-    <div class="relative grid h-64 w-64 place-items-center rounded-full border">
-      <small class="absolute top-16">{{ phaseText }}</small>
-      <time class="text-7xl tabular-nums">{{ formattedTime }}</time>
-    </div>
-    <div class="flex gap-x-4">
-      <button class="btn btn-circle btn-secondary btn-outline" @click="reset()">
-        <Reset />
-      </button>
-      <button class="btn btn-circle btn-primary" @click="toggleTimer()">
-        <Pause v-if="playing" />
-        <Play v-else class="ml-[3px]" />
-      </button>
+  <main class="mx-auto flex w-72 flex-col items-center gap-y-6 text-center">
+    <div class="flex h-80 w-80 flex-col rounded-full border border-primary">
+      <span class="mb-2 mt-16">{{ phaseText }}</span>
+      <time class="text-8xl font-light tabular-nums">{{ formattedTime }}</time>
+      <div class="mx-auto mt-4 flex gap-x-4">
+        <button
+          class="btn btn-circle btn-secondary btn-outline"
+          @click="reset()"
+        >
+          <Reset />
+        </button>
+        <button class="btn btn-circle btn-primary" @click="toggleTimer()">
+          <Pause v-if="playing" />
+          <Play v-else class="ml-[3px]" />
+        </button>
+      </div>
     </div>
     <div class="grid w-full grid-cols-[auto_auto_1fr_auto] items-center gap-2">
       <small />
@@ -60,42 +63,36 @@ watch(breakSoundPath, () => breakSound.play());
       <label>Work</label>
       <NumberInput v-model="workMins" class="w-14 text-center" />
       <SoundSelect v-model="workSoundPath" class="w-full text-center" />
-      <button
-        class="btn btn-circle btn-ghost btn-xs text-secondary"
-        @click="workSound.play()"
-      >
-        <Play class="ml-0.5 w-4" />
+      <button @click="workSound.play()">
+        <Play class="ml-1 w-4 text-secondary" />
       </button>
 
       <label>Break</label>
       <NumberInput v-model="breakMins" class="w-14 text-center" />
       <SoundSelect v-model="breakSoundPath" class="w-full text-center" />
-      <button
-        class="btn btn-circle btn-ghost btn-xs text-secondary"
-        @click="breakSound.play()"
-      >
-        <Play class="ml-0.5 w-4" />
+      <button @click="breakSound.play()">
+        <Play class="ml-1 w-4 text-secondary" />
       </button>
     </div>
-    <div class="flex w-full gap-x-2">
+    <div class="flex w-full items-center gap-x-2">
       <button @click="volume = Math.max(0, volume - 0.1)">
-        <VolumeMin class="w-5 text-secondary" />
+        <VolumeMin class="w-5 text-secondary" stroke-width="1.5" />
       </button>
       <input
         v-model.number="volume"
         type="range"
-        class="range range-secondary range-sm grow"
+        class="range range-secondary range-xs"
         min="0"
         max="1"
         step="0.1"
       />
       <button @click="volume = Math.min(1, volume + 0.1)">
-        <VolumeMax class="w-5 text-secondary" />
+        <VolumeMax class="w-5 text-secondary" stroke-width="1.5" />
       </button>
     </div>
   </main>
 
-  <footer class="p-2 text-center">
+  <footer class="p-3 text-center">
     <a
       href="https://github.com/jay-es/pomodoro-timer"
       target="_blank"
@@ -105,3 +102,9 @@ watch(breakSoundPath, () => breakSound.play());
     </a>
   </footer>
 </template>
+
+<style scoped>
+.range::-webkit-slider-thumb {
+  @apply text-transparent;
+}
+</style>
