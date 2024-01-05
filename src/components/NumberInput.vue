@@ -1,31 +1,20 @@
 <script setup lang="ts">
-defineProps<{
-  modelValue: number;
-}>();
-
-const emit = defineEmits<{
-  'update:modelValue': [num: number];
-}>();
-
-function handleInput(e: Event) {
-  if (!(e.target instanceof HTMLInputElement)) {
-    throw new Error('the element is not a <input />');
-  }
-
-  const num = parseInt(e.target.value, 10);
-  if (!isNaN(num)) {
-    emit('update:modelValue', num);
-  }
-}
+const [modelValue] = defineModel<number>({
+  required: true,
+  set(value) {
+    const num = parseInt(value as any, 10);
+    return num > 0 ? num : modelValue.value;
+  },
+});
 </script>
 
 <template>
   <input
-    :value="modelValue"
+    v-model="modelValue"
     type="text"
     inputmode="numeric"
-    pattern="\d*"
+    pattern="[1-9]\d*"
+    required
     class="input input-bordered input-sm invalid:input-warning"
-    @input="handleInput"
   />
 </template>
