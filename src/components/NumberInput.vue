@@ -15,6 +15,6 @@ const [modelValue] = defineModel<number>({
     inputmode="numeric"
     pattern="[1-9]\d*"
     required
-    class="input input-bordered input-sm invalid:input-warning"
+    class="input invalid:input-warning"
   />
 </template>

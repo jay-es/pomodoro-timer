@@ -4,6 +4,9 @@
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
+  "files.associations": {
+    "**/src/**/*.css": "tailwindcss" // @apply, @plugin の警告対応
+  },
   "cSpell.words": [
     "composables",
     "daisyui",

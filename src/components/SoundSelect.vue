@@ -14,7 +14,7 @@ const modelValue = defineModel<string>({ required: true });
 </script>
 
 <template>
-  <select v-model="modelValue" class="select select-bordered select-sm">
+  <select v-model="modelValue" class="select">
     <option v-for="(v, k) in sounds" :key="k" :value="v">{{ k }}</option>
   </select>
 </template>

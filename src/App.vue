@@ -38,17 +38,20 @@ watch(breakSoundPath, () => breakSound.play());
   </header>
 
   <main class="mx-auto flex w-72 flex-col items-center gap-y-6 text-center">
-    <div class="flex h-80 w-80 flex-col rounded-full border border-primary">
-      <span class="mb-2 mt-16">{{ phaseText }}</span>
+    <div class="border-primary flex h-80 w-80 flex-col rounded-full border">
+      <span class="mt-16 mb-2">{{ phaseText }}</span>
       <time class="text-8xl font-light tabular-nums">{{ formattedTime }}</time>
       <div class="mx-auto mt-4 flex gap-x-4">
         <button
-          class="btn btn-circle btn-secondary btn-outline"
+          class="btn btn-lg btn-circle btn-secondary btn-outline"
           @click="reset()"
         >
           <Reset />
         </button>
-        <button class="btn btn-circle btn-primary" @click="toggleTimer()">
+        <button
+          class="btn btn-lg btn-circle btn-primary"
+          @click="toggleTimer()"
+        >
           <Pause v-if="playing" />
           <Play v-else class="ml-[3px]" />
         </button>
@@ -64,30 +67,30 @@ watch(breakSoundPath, () => breakSound.play());
       <NumberInput v-model="workMins" class="w-14 text-center" />
       <SoundSelect v-model="workSoundPath" class="w-full text-center" />
       <button @click="workSound.play()">
-        <Play class="ml-1 w-4 text-secondary" />
+        <Play class="text-secondary ml-1 w-4" />
       </button>
 
       <label>Break</label>
       <NumberInput v-model="breakMins" class="w-14 text-center" />
       <SoundSelect v-model="breakSoundPath" class="w-full text-center" />
       <button @click="breakSound.play()">
-        <Play class="ml-1 w-4 text-secondary" />
+        <Play class="text-secondary ml-1 w-4" />
       </button>
     </div>
     <div class="flex w-full items-center gap-x-2">
       <button @click="volume = Math.max(0, volume - 0.1)">
-        <VolumeMin class="w-5 text-secondary" stroke-width="1.5" />
+        <VolumeMin class="text-secondary w-5" stroke-width="1.5" />
       </button>
       <input
         v-model.number="volume"
         type="range"
-        class="range range-secondary range-xs"
+        class="range text-secondary range-xs [--range-bg:var(--color-gray-200)] [--range-fill:0] [--range-p:0.15rem]"
         min="0"
         max="1"
         step="0.1"
       />
       <button @click="volume = Math.min(1, volume + 0.1)">
-        <VolumeMax class="w-5 text-secondary" stroke-width="1.5" />
+        <VolumeMax class="text-secondary w-5" stroke-width="1.5" />
       </button>
     </div>
   </main>
@@ -102,9 +105,3 @@ watch(breakSoundPath, () => breakSound.play());
     </a>
   </footer>
 </template>
-
-<style scoped>
-.range::-webkit-slider-thumb {
-  @apply text-transparent;
-}
-</style>
